@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../../public/logo1.png";
-import { BiPhoneCall } from "react-icons/bi";
+import { FaRegUser } from "react-icons/fa";
+import Model from "./Model";
+import { AuthContext } from "../contexts/AuthProvider";
 const Navbar = () => {
   const [isSticky, setSticky] = useState(false);
+
+  const { user } = useContext(AuthContext);
+  console.log(user);
   useEffect(() => {
     const handleScroll = () => {
       const offset = window.scrollY;
@@ -21,13 +26,15 @@ const Navbar = () => {
 
   const navItems = (
     <>
-      <li>
-        <a className="text-green" href="/">Home</a>
+      <li className="text-[#5cf34e]">
+        <a className="text-[#1fe00ed0]" href="/">
+          Home
+        </a>
       </li>
       <li tabIndex={0}>
-        <details>
+        <details className="text-[#0e0202]">
           <summary>Menu</summary>
-          <ul className="p-2">
+          <ul className="p-2 text-[#ffff]">
             <li>
               <a href="/menu">all</a>
             </li>
@@ -41,9 +48,9 @@ const Navbar = () => {
         </details>
       </li>
       <li tabIndex={0}>
-        <details>
+        <details className="text-[#0e0202]">
           <summary>Services</summary>
-          <ul className="p-2">
+          <ul className="p-2 text-[#ffff]">
             <li>
               <a>Online Order</a>
             </li>
@@ -56,7 +63,7 @@ const Navbar = () => {
           </ul>
         </details>
       </li>
-      <li>
+      <li className="text-[#0e0202]">
         <a>Offers</a>
       </li>
     </>
@@ -144,11 +151,15 @@ const Navbar = () => {
               <span className="badge badge-sm indicator-item">8</span>
             </div>
           </div>
-          {/* button */}
-          <a className="btn bg-green rounded-full px-8 text-white flex items-center gap-2 ">
-            <BiPhoneCall />
-            Contact
-          </a>
+          {/* Login  button */}
+          <button
+            onClick={() => document.getElementById("my_modal_5").showModal()}
+            className="btn bg-green rounded-full px-8 text-white flex items-center gap-2 "
+          >
+            <FaRegUser />
+            Login
+          </button>
+          <Model />
         </div>
       </div>
     </header>

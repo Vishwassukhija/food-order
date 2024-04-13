@@ -2,14 +2,16 @@ import React from "react";
 
 const Banner = () => {
   return (
-    <div className="section-container bg-gradient-to-r from-[#FAFAFA] FROM-0% to-[#FCFCFC] to-100%  ">
+    <div className=" max-w-screen-2xl container mx-auto xl:px-24 bg-gradient-to-t from-[#ccd4cf27] FROM-0% to-[#FCFCFC] to-100%  ">
       <div className="py-24  flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="md:w-1/2 space-y-7 px-4">
           <h2 className="md:text-5xl text-4xl font-bold md:leading-snug leading-snug ">
-            Dive Into Delights Of Delectable{" "}
+            <span className="text-[#05170bb3]">
+              Dive Into Delights Of Delectable{" "}
+            </span>{" "}
             <span className="text-green">Food</span>
           </h2>
-          <p className="text-xl text-[#4A4A4A4A]">
+          <p className="text-xl text-[#170505fa]">
             Where Each Weaves a story of Culinary Mastery and Passionate
             Craftmanship
           </p>
