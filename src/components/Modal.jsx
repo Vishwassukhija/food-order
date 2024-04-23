@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import {
   FaFacebook,
   FaGoogle,
@@ -7,17 +7,53 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const Model = () => {
+  // Corrected typo here
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const { signUpWithGmail, login } = useContext(AuthContext); // Include login function
+  const [message, setMessage] = useState("");
+
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
+    // console.log(email, password);
+    login(email, password)
+      .then((result) => {
+        const user = result.user;
+        alert("Login Successful");
+        document.getElementById("my_modal_5").close();
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        const message = error.message;
+        setMessage("provide a correct email and password");
+      });
+  };
+
+  const handleLogin = () => {
+    signUpWithGmail()
+      .then((result) => {
+        const user = result.user;
+        setMessage("Login Successful!");
+        document.getElementById("my_modal_5").close();
+        navigate(from, { replace: true });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <dialog id="my_modal_5" className="modal modal-middle sm:modal-middle ">
@@ -64,18 +100,24 @@ const Model = () => {
               </label>
             </div>
 
+            {/* error */}
+            {message ? (
+              <p className="text-red text-xs italic">{message}</p>
+            ) : (
+              ""
+            )}
+
             {/* Login button */}
             <div className="form-control mt-6">
               <input
-                type="Submit"
+                type="submit"
                 value="Login"
                 className="btn bg-green text-white"
               />
             </div>
-            <p className=" text-center my-2">
+            <p className="text-center my-2">
               Dont have an account?{" "}
               <Link to="/signup" className="text-red ml-1 underline ">
-                {" "}
                 Signup
               </Link>
             </p>
@@ -88,20 +130,23 @@ const Model = () => {
               X
             </button>
           </form>
-          <div className=" text-center flex flex-row  justify-center -mt-2 space-x-3">
-            <button className="btn btn-circle   hover:bg-green hover: text-white">
+          <div className="text-center flex flex-row justify-center -mt-2 space-x-3">
+            <button
+              className="btn btn-circle hover:bg-green hover:text-white"
+              onClick={handleLogin}
+            >
               <FaGoogle />
             </button>
-            <button className="btn btn-circle hover:bg-green hover: text-white">
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaInstagram />
             </button>
-            <button className="btn btn-circle hover:bg-green hover: text-white">
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaLinkedin />
             </button>
-            <button className="btn btn-circle hover:bg-green hover: text-white">
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaTwitter />
             </button>
-            <button className="btn btn-circle hover:bg-green hover: text-white">
+            <button className="btn btn-circle hover:bg-green hover:text-white">
               <FaFacebook />
             </button>
           </div>

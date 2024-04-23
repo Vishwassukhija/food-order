@@ -1,9 +1,14 @@
-import React, { createContext, useState } from "react";
-import PropTypes from "prop-types";
+import React, { createContext, useEffect, useState } from "react";
+import PropTypes from "prop-types"; // Import PropTypes
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  updateProfile,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 
@@ -15,25 +20,68 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  //crate an account
+  // create an account
   const createUser = (email, password) => {
+    setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
-  const signUpWithGmail = () => {};
+
+  // signup with gmail
+  const signUpWithGmail = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  };
+
+  // login using email & password
+  const login = (email, password) => {
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+
+  // logout
+  const logOut = () => {
+    return signOut(auth);
+  };
+
+  // update profile
+  const updateUserProfile = (name, photoURL) => {
+    return updateProfile(auth.currentUser, {
+      displayName: name,
+      photoURL: photoURL,
+    });
+  };
+
+  // check signed-in user
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      // console.log(currentUser);
+      setUser(currentUser);
+      setLoading(false);
+    });
+
+    return () => {
+      return unsubscribe();
+    };
+  }, []);
+
   const authInfo = {
     user,
     createUser,
+    signUpWithGmail,
+    login,
+    logOut,
+    updateUserProfile,
+    loading,
   };
 
   return (
-    <div>
+    <>
       <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
-    </div>
+    </>
   );
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired, // Validate that children is a ReactNode
 };
 
 export default AuthProvider;

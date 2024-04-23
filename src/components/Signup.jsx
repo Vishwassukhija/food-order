@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import {
   FaFacebook,
@@ -7,18 +7,38 @@ import {
   FaLinkedin,
   FaTwitter,
 } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import Model from "./Model";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Modal from "./Modal";
+import { AuthContext } from "../contexts/AuthProvider";
 
 const Signup = () => {
   const {
     register,
     handleSubmit,
-
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => console.log(data);
+  const { createUser, login } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const from = location.state?.from?.pathname || "/";
+  const onSubmit = (data) => {
+    const email = data.email;
+    const password = data.password;
+    createUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        alert("Sign in Successfully");
+        document.getElementById("my_modal_5").close();
+        navigate(from, { replace: true });
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // ..
+      });
+  };
   return (
     <div className=" max-w-md bg-slate-700  shadow w-full mx-auto flex items-center justify-center  my-28 ">
       <div className="modal-action  flex flex-col  justify-center mt-0">
@@ -51,11 +71,13 @@ const Signup = () => {
             </label>
             <input
               type="password"
-              placeholder="password"
+              placeholder="password at least 6 digit"
               className="input input-bordered"
               required
               {...register("password")}
+              // Add onChange handler
             />
+
             <label className="label">
               <a href="#" className="label mt-1">
                 Forgot password?
@@ -107,7 +129,7 @@ const Signup = () => {
           </button>
         </div>
       </div>
-      <Model />
+      <Modal />
     </div>
   );
 };
