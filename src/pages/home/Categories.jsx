@@ -28,7 +28,7 @@ const categoriesItem = [
 ];
 const Categories = () => {
   return (
-    <div className="section-container py-16 ">
+    <div className="section-container py-16  ">
       <div className="text-center">
         <p className="subtitle">Customer Favorites</p>
         <h2 className="title">Popular Categories</h2>
@@ -39,11 +39,11 @@ const Categories = () => {
             key={i}
             className="shadow-lg rounded-md bg-white py-6 px-5 w-72 mx-auto text-center cursor-pointer hover:-translate-y-4 duration-300 transition-all md:flex-col-2 sm:flex-row mt-6"
           >
-            <div className="flex w-full mx-auto items-center justify-center">
+            <div className="flex w-full mx-auto items-center justify-center ">
               <img
                 src={item.image}
                 alt=""
-                className="bg-white py-6 px-5 2-72 mx-auto text-center"
+                className="bg-white py-6 px-5 2-72 mx-auto text-center "
               />
             </div>
             <div className="mt-5 space-y-1">

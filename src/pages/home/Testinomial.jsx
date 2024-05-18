@@ -3,8 +3,8 @@ import { FaStar } from "react-icons/fa";
 
 const Testinomial = () => {
   return (
-    <div className="section-container">
-      <div className="flex flex-col md:flex-row items-center justify-between gap-12">
+    <div className="section-container  ">
+      <div className="flex flex-col md:flex-row items-center justify-between gap-12 ">
         <div className=" md:w-1/2">
           <img
             src="/public/Images/Testinomial/Testinomial3.png"

@@ -29,7 +29,7 @@ const servicesLists = [
 
 const OurServices = () => {
   return (
-    <div className="section-container my-16">
+    <div className="section-container my-16  ">
       <div className="flex flex-col md:flex-row items-center justify-between gap-12">
         {/* text */}
         <div className="md:w-1/2">
