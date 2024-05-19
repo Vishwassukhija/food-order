@@ -18,6 +18,7 @@ const Menu = () => {
         const data = await response.json();
         setMenu(data);
         setFilteredItems(data);
+        
       } catch (error) {
         console.log("Error:", error);
       }
